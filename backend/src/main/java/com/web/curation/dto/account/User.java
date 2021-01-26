@@ -10,17 +10,23 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity(name="user")
 @Table(name="user")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Data
+//@Data
+@Getter @Setter @ToString
 public class User {
     
     @Id // @Column(name="EMAIL")
@@ -29,7 +35,8 @@ public class User {
     @Column(name="password", nullable = false)
     private String password;
 
-    @Column(name="signup_date", insertable = false)
+    @Column(name="signup_date")
+    @CreationTimestamp
     private Date signup_date;
     
     @Column(name="nickname")
