@@ -83,8 +83,8 @@ import "../../components/css/user.scss";
 import "../../components/css/style.scss";
 import PV from "password-validator";
 import * as EmailValidator from "email-validator";
-import UserApi from "../../api/UserApi";
-import store from "../../vuex/store"
+// import UserApi from "../../api/UserApi";
+// import store from "../../vuex/store"
 import * as axios from 'axios';
 import { mapState, mapActions} from "vuex"
 import { base } from "@/components/common/BaseURL.vue"; // baseURL

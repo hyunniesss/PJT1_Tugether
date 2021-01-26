@@ -115,76 +115,75 @@ export default new Vuex.Store({
         // signinObj : 로그인 시 입력한 { 이메일, 패스워드 }
 
         login({state, commit}, signinObj){ // 로그인 시도!
-            
+            console.log('LOGIN 시도!')
             axios.post(base + '/account/signin',
                 signinObj)
                 .then(res=>{
-                    
-                        // console.log("구글회원유무 ");
-                        // console.log(res.data.isgoogle);
-                        if(res.data.isgoogle){
-                            alert("구글로그인 연동 회원입니다 :) ");
-                            return;
-                        }
-                        localStorage.setItem("token", res.headers["jwt-auth-token"])
-                        localStorage.setItem("email", res.data.data.email)
-                        //임시 비밀번호로 로그인 했으면 => 비밀번호 변경페이지로 이동 
-                        if (res.data.data.temp==1 && res.data.status) { 
-                            state.message = res.data.data.email;
+                    console.log('THEN ',res);
+                    // console.log("구글회원유무 ");
+                    // console.log(res.data.isgoogle);
+                    if(res.data.isgoogle){
+                        alert("구글로그인 연동 회원입니다 :) ");
+                        return;
+                    }
+                    localStorage.setItem("token", res.headers["jwt-auth-token"])
+                    localStorage.setItem("email", res.data.data.email)
+                    //임시 비밀번호로 로그인 했으면 => 비밀번호 변경페이지로 이동 
+                    if (res.data.data.temp==1 && res.data.status) { 
+                        state.message = res.data.data.email;
 
-                            state.email = state.message
+                        state.email = state.message
 
-                            state.nickname = res.data.data.nickname;
-                            // console.log(state.email);
-                            // console.log(state.nickname);
-                            // console.log("토큰: "+res.headers["jwt-auth-token"]);
+                        state.nickname = res.data.data.nickname;
+                        // console.log(state.email);
+                        // console.log(state.nickname);
+                        // console.log("토큰: "+res.headers["jwt-auth-token"]);
 
-                            state.token =  res.headers["jwt-auth-token"];
-                            state.nickname = res.data.data.nickname;
-                            alert("임시비밀번호로 설정되어있어 비밀번호 변경 페이지로 이동합니다.")
-                            router.push("/passwordchange")
-                            return
-                        }
-                        else if(res.data.status) { // 임시비밀번호 로그인 안했으면 
-                            // console.log(res.data.status)
-                            state.token = res.headers["jwt-auth-token"];
-                            state.email = res.data.data.email;
-                            state.nickname = res.data.data.nickname;
-                    
-                            commit("loginSuccess") //Actions에서는 mutations의 함수를 호출하여 state값을 바꾼다.
-                            alert("로그인 성공! 환영합니다 :)");
+                        state.token =  res.headers["jwt-auth-token"];
+                        state.nickname = res.data.data.nickname;
+                        alert("임시비밀번호로 설정되어있어 비밀번호 변경 페이지로 이동합니다.")
+                        router.push("/passwordchange")
+                        return
+                    }
+                    else if(res.data.status) { // 임시비밀번호 로그인 안했으면 
+                        // console.log(res.data.status)
+                        state.token = res.headers["jwt-auth-token"];
+                        state.email = res.data.data.email;
+                        state.nickname = res.data.data.nickname;
+                
+                        commit("loginSuccess") //Actions에서는 mutations의 함수를 호출하여 state값을 바꾼다.
+                        alert("로그인 성공! 환영합니다 :)");
 
-                            //관심태그를 설정한 회원인지 체크한다. 
-                            axios.get(
-                                base + '/tugether/checkfavtag',
-                                {
-                                headers:{
-                                    "jwt-auth-token": res.headers["jwt-auth-token"]
-                                }
-                                }
-                            )
-                            .then(res=>{
+                        //관심태그를 설정한 회원인지 체크한다. 
+                        axios.get(
+                            base + '/tugether/checkfavtag',
+                            {
+                            headers:{
+                                "jwt-auth-token": res.headers["jwt-auth-token"]
+                            }
+                            }
+                        )
+                        .then(res=>{
 
-                                // console.log(res.data.status) //undefined ...? 
+                            // console.log(res.data.status) //undefined ...? 
 
-                                if(res.data.status){ //관심태그 설정한 놈 
-                                    router.push("/mainfeed");
+                            if(res.data.status){ //관심태그 설정한 놈 
+                                router.push("/mainfeed");
 
-                                }else{ //안한놈 
-                                    router.push("/select");
-                                }
-                                
-                            })
-                            .catch(e=>{
-                                // console.log("관심태그를 설정한 회원인지 조회를 실패하였습니다.")
-                                
-                            });
+                            }else{ //안한놈 
+                                router.push("/select");
+                            }
+                            
+                        })
+                        .catch(e=>{
+                            // console.log("관심태그를 설정한 회원인지 조회를 실패하였습니다.")
+                            
+                        });
 
-                        }else{
-                            state.message = "로그인해주세요.";
-                            alert("입력정보를 확인하세요.");
-                        }
-                    
+                    }else{
+                        state.message = "로그인해주세요.";
+                        alert("입력정보를 확인하세요.");
+                    }
                 })
                 .catch(e=>{
                     console.log(e)

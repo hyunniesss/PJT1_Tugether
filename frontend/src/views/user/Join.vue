@@ -104,7 +104,7 @@
 <script>
 import axios from "axios";
 import PV from "password-validator";
-import * as EmailValidator from "email-validator";
+// import * as EmailValidator from "email-validator";
 import { base } from "@/components/common/BaseURL.vue"; // baseURL
 
 var valid = "";

@@ -137,7 +137,8 @@ import BottomNav from "@/components/common/BottomNav"
 import InfiniteLoading from 'vue-infinite-loading';
 
 
-const SERVER_URL = 'https://i3b303.p.ssafy.io'
+// const SERVER_URL = 'https://i3b303.p.ssafy.io'
+// const SERVER_URL = 'http://localhost:8080'
 export default {
   name: 'MainFeed',
   components:{
