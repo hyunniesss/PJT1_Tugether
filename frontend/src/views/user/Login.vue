@@ -78,7 +78,6 @@
 </style>
 
 <script>
-
 import "../../components/css/user.scss";
 import "../../components/css/style.scss";
 import PV from "password-validator";
